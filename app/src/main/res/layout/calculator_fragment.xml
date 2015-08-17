@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:fillViewport="true"
+        android:background="@android:color/background_dark">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Samochód"
+                android:id="@+id/textView7"
+                android:textColor="@android:color/primary_text_dark"
+                android:layout_weight="7"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="10"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Marka pojazdu"
+                    android:id="@+id/textView2"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:layout_weight="3" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/company"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:background="@android:color/background_dark"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Rok produkcji"
+                    android:id="@+id/textView4"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/production"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Model"
+                    android:id="@+id/textView3"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/model"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data pierwszej rejestracji"
+                    android:id="@+id/textView5"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/registerDate"
+                    android:textColor="@android:color/white"
+                    android:text="Wybierz datę"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Suma ubezpieczenia"
+                    android:id="@+id/textView6"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/value"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Właściciel"
+                android:id="@+id/textView8"
+                android:textColor="@android:color/primary_text_dark"
+                android:paddingLeft="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="PESEL"
+                    android:id="@+id/textView9"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/pesel"
+                    android:maxLength="11"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data urodzenia"
+                    android:id="@+id/textView12"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="01-01-2000"
+                    android:id="@+id/dob"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Kod pocztowy"
+                    android:id="@+id/textView10"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:maxLength="6"
+                    android:id="@+id/postalCode"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Miejscowość"
+                    android:id="@+id/textView11"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/city"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Historia OC"
+                android:id="@+id/textView15"
+                android:textColor="@android:color/primary_text_dark"
+                android:paddingLeft="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Od ilu lat posiadasz ubezpieczenie OC?"
+                    android:id="@+id/textView14"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/yearsOC"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Ostatnie TU"
+                    android:id="@+id/textView13"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/insurerOC"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Czy była szkoda w ostatnim roku?"
+                    android:id="@+id/textView16"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/lastYearOC"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Czy była szkoda w ostanich 3 latach?"
+                    android:id="@+id/textView17"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/last3yearsOC"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="false" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Historia AC"
+                android:id="@+id/textView22"
+                android:textColor="@android:color/primary_text_dark"
+                android:paddingLeft="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Od ilu lat posiadasz ubezpieczenie OC?"
+                    android:id="@+id/textView18"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/yearsAC"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Ostatnie TU"
+                    android:id="@+id/textView19"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/insurerAC"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Czy była szkoda w ostatnim roku?"
+                    android:id="@+id/textView20"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/lastYearAC"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Czy była szkoda w ostanich 3 latach?"
+                    android:id="@+id/textView21"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/last3yearsAC"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="false" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ubezpieczenie"
+                android:id="@+id/textView23"
+                android:textColor="@android:color/primary_text_dark"
+                android:paddingLeft="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data rozpoczęcia ochrony"
+                    android:id="@+id/textView24"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/startDate"
+                    android:textColor="@android:color/white"
+                    android:text="Wybierz datę"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Liczba rat"
+                    android:id="@+id/textView25"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/raty"
+                    android:layout_weight="2"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="#ff3b3b3b" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Ubezpieczenie NNW"
+                    android:id="@+id/textView26"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/nnw"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Assistance"
+                    android:id="@+id/textView27"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/ass"
+                    android:checked="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Ochrona szyb"
+                    android:id="@+id/textView28"
+                    android:textColor="@android:color/secondary_text_dark" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Switch"
+                    android:id="@+id/szyby"
+                    android:checked="false" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zapisz"
+                    android:id="@+id/save" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wylicz"
+                    android:id="@+id/calculate" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>
