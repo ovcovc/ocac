@@ -24,12 +24,30 @@ public class TabListener implements ActionBar.TabListener {
     // that's why we declared an id for the main layout.
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        ft.replace(R.id.container, fragment);
+       /* if (fragment.isDetached()) {
+            ft.attach(fragment);
+        } else {
+        */
+            ft.replace(R.id.container, fragment);
+
+            //FormFragment frag = (FormFragment)fragment;
+
+            //frag.getFormFromCache();
+
+        //}
     }
 
     // When a tab is unselected, we have to hide it from the user's view.
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        //if (tab.getPosition() == 0) {
+
+            //FormFragment frag = (FormFragment)fragment;
+
+            //frag.cacheForm();
+
+        //}
+
         ft.remove(fragment);
     }
 

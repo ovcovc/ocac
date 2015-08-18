@@ -59,6 +59,8 @@ import java.util.Objects;
 /**
  * Created by Piotr on 2015-08-15.
  */
+
+
 public class FormFragment extends Fragment {
 
     private DatePickerDialog registerDatePickerDialog, startDatePickerDialog;
@@ -119,10 +121,114 @@ public class FormFragment extends Fragment {
 
     Switch lastYearOC, lastYearAC, last3yearsOC, last3yearsAC, windshields, nnw, assistance;
 
+    String nameToSave = "";
+
+    boolean fromCache = false;
+
+    JSONObject cacheJSON;
 
 
     public FormFragment() {
 
+    }
+
+    public void cacheForm() {
+
+        fromCache = true;
+
+        this.cacheJSON = getJSONvalues();
+
+    }
+
+    public void getFormFromCache() {
+
+        try {
+
+        JSONObject json = new JSONObject();
+
+        json = this.cacheJSON;
+
+        String c = null;
+
+            c = companyDict.get(json.get("company"));
+
+        this.selectedCompany = (int)json.get("company");
+
+        this.companies.setSelection(((ArrayAdapter)companies.getAdapter()).getPosition(c));
+
+        this.selectedYear = Integer.parseInt(json.get("production").toString());
+
+        this.selectedModel = (int)json.get("model");
+
+        this.registerDate.setText(json.get("registration_date").toString());
+
+        this.startDate.setText(json.get("start_date").toString());
+
+        this.value.setText(json.get("value").toString());
+
+        this.pesel.setText(json.get("pesel").toString());
+
+        this.handlePesel();
+
+        this.postalCode.setText(json.get("postal_code").toString());
+
+        this.selectedCity = (int)json.get("city");
+
+        if (json.get("postal_code").toString().length() == 6) {
+
+            setCities(postalCode.getText().toString());
+
+        } else {
+
+            setCities("");
+
+        }
+
+        this.selectedOCyears = (int)json.get("selectedOCyears");
+        //this.yearsSpinner.setSelection(((ArrayAdapter)yearsSpinner.getAdapter()).getPosition(prod));
+        this.yearsOC.setSelection(selectedOCyears);
+
+        this.selectedACyears = (int)json.get("selectedACyears");
+
+        this.yearsAC.setSelection(selectedACyears);
+
+        this.previousOCname = json.get("previousOCname").toString();
+
+        this.previousInsurerAC = (int)json.get("previousACID");
+
+        this.previousInsurerOC = (int)json.get("previousOCID");
+
+        this.previousACname = json.get("previousACname").toString();
+
+        this.insurersOC.setSelection(((ArrayAdapter)insurersOC.getAdapter()).getPosition(json.get("previousOCname")));
+
+        this.insurersAC.setSelection(((ArrayAdapter)insurersAC.getAdapter()).getPosition(json.get("previousACname")));
+
+        this.lastYearOC.setChecked((boolean)json.get("lastYearOC"));
+
+        this.lastYearAC.setChecked((boolean)json.get("lastYearAC"));
+
+        this.last3yearsOC.setChecked((boolean)json.get("last3yearsOC"));
+
+        this.last3yearsAC.setChecked((boolean)json.get("last3yearsAC"));
+
+        this.nnw.setChecked((boolean)json.get("nnw"));
+
+        this.windshields.setChecked((boolean)json.get("szyby"));
+
+        this.assistance.setChecked((boolean)json.get("assistance"));
+
+        this.installmentsSelected = (int)json.get("installments");
+
+        this.installments.setSelection(((ArrayAdapter)installments.getAdapter()).getPosition(this.installmentsSelected));
+
+            fromCache = false;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        fromCache = false;
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
@@ -197,9 +303,13 @@ public class FormFragment extends Fragment {
 
     public void saveState() {
 
+        if (nameToSave.equalsIgnoreCase("")) {
 
+            nameToSave = String.format("%s.txt", new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()));
 
-        writeToFile(getJSONvalues().toString(), "name");
+        }
+
+        writeToFile(getJSONvalues().toString(), nameToSave);
 
     }
 
@@ -287,6 +397,7 @@ public class FormFragment extends Fragment {
         }
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -602,7 +713,9 @@ public class FormFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                selectedCompany = getKeyByValue(companyDict, companies.getSelectedItem().toString());
+                String comp = companies.getSelectedItem().toString();
+
+                selectedCompany = getKeyByValue(companyDict, comp);
 
                 //getModelsById(selectedCompany);
 
@@ -618,9 +731,41 @@ public class FormFragment extends Fragment {
             }
         });
 
-        restoreState("name");
+
 
         return rootView;
+
+    }
+
+    @Override
+    public void onResume(){
+
+        super.onResume();
+
+        MainActivity activity = (MainActivity)getActivity();
+
+        if (!activity.getFileToRestore().equalsIgnoreCase("")) {
+
+            nameToSave = activity.getFileToRestore();
+
+            activity.setFileToRestore("");
+
+            restoreState(nameToSave);
+
+        } else if (this.fromCache) {
+
+            getFormFromCache();
+
+        }
+
+    }
+
+    @Override
+    public void onPause(){
+
+        super.onPause();
+
+        this.cacheForm();
 
     }
 
@@ -1048,7 +1193,7 @@ public class FormFragment extends Fragment {
 
     private void writeToFile(String data, String name) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().getApplicationContext().openFileOutput("config.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().getApplicationContext().openFileOutput(name, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         }
@@ -1062,7 +1207,7 @@ public class FormFragment extends Fragment {
         String ret = "";
 
         try {
-            InputStream inputStream = getActivity().getApplicationContext().openFileInput("config.txt");
+            InputStream inputStream = getActivity().getApplicationContext().openFileInput(name);
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

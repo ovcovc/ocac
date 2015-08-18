@@ -17,9 +17,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private ActionBar mActionBar;
 
+    public String fileToRestore = "";
+
     Fragment mFormFragment = new FormFragment();
 
     Fragment mCalculationsFragment= new CalculationsFragment();
+
+    public void setFileToRestore(String file) {
+
+        this.fileToRestore = file;
+
+    }
+
+    public String getFileToRestore() {
+
+        return fileToRestore;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +60,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Second Tab of the Activity
         mTab = mActionBar.newTab().setText("Moje kalkulacje").setTabListener(new TabListener(mCalculationsFragment));
         mActionBar.addTab(mTab);
+
+    }
+
+
+    public void setTab(int tab) {
+
+        mActionBar.selectTab(mActionBar.getTabAt(tab));
 
     }
 

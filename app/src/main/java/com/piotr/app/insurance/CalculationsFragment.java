@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -15,13 +18,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Piotr on 2015-08-15.
  */
 public class CalculationsFragment extends Fragment {
 
-    ArrayList<String> fileNames = new ArrayList<String>();
+    List<String> fileNames = new ArrayList<String>();
+
+    ListView listView;
 
     public CalculationsFragment() {
     }
@@ -34,6 +40,8 @@ public class CalculationsFragment extends Fragment {
         File dir = getActivity().getApplicationContext().getFilesDir();
         File[] subFiles = dir.listFiles();
 
+        fileNames.clear();
+
         if (subFiles != null)
         {
             for (File file : subFiles)
@@ -43,6 +51,31 @@ public class CalculationsFragment extends Fragment {
 
             }
         }
+
+        listView = (ListView) rootView.findViewById(R.id.listView);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity().getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                fileNames );
+
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                MainActivity activity = (MainActivity)getActivity();
+
+                String name = fileNames.get(position);
+
+                activity.setFileToRestore(name);
+
+                activity.setTab(0);
+
+            }
+        });
+
 
         return rootView;
     }
