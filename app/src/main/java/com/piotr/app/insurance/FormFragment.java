@@ -2,13 +2,14 @@ package com.piotr.app.insurance;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,16 +27,21 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -42,12 +49,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,6 +63,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+
 /**
  * Created by Piotr on 2015-08-15.
  */
@@ -63,7 +74,13 @@ import java.util.Objects;
 
 public class FormFragment extends Fragment {
 
-    private DatePickerDialog registerDatePickerDialog, startDatePickerDialog;
+    FragmentManager fm;
+
+    SpinnerDialog dialog;
+
+    ArrayList<String> policyPrices = new ArrayList<String>();
+
+    private DatePickerDialog registerDatePickerDialog, startDatePickerDialog, licDatePickerDialog;
 
     EditText registerDate, pesel, startDate;
 
@@ -85,7 +102,7 @@ public class FormFragment extends Fragment {
 
     Spinner yearsOC, yearsAC, city, installments;
 
-    EditText postalCode, value;
+    EditText postalCode, value, licence;
 
     int previousInsurerOC = -1;
 
@@ -151,6 +168,8 @@ public class FormFragment extends Fragment {
         String c = null;
 
             c = companyDict.get(json.get("company"));
+
+
 
         this.selectedCompany = (int)json.get("company");
 
@@ -263,6 +282,8 @@ public class FormFragment extends Fragment {
 
             json.put("start_date", startDate.getText().toString());
 
+            json.put("licence", licence.getText().toString());
+
             json.put("city", selectedCity);
 
             json.put("selectedOCyears", selectedOCyears);
@@ -333,6 +354,8 @@ public class FormFragment extends Fragment {
             this.registerDate.setText(json.get("registration_date").toString());
 
             this.startDate.setText(json.get("start_date").toString());
+
+            this.licence.setText(json.get("licence").toString());
 
             this.value.setText(json.get("value").toString());
 
@@ -412,6 +435,10 @@ public class FormFragment extends Fragment {
                 "{ \"TUZ\":19 }, { \"UNIQA\":20 }, { \"Warta\":21 }, { \"Proama\":22 }, " +
                 "{ \"TUW Pocztowy\":23 }, { \"Gothaer\":24 }, { \"Inny\":99 }, { \"Allianz Direct\":25 }, " +
                 "{ \"Concordia\":7 }, { \"Ergo Hestia\":8 }, { \"Generali\":9 }, { \"HDI\":10 } ]";
+
+        fm = getActivity().getSupportFragmentManager();
+
+        dialog = new SpinnerDialog();
 
         this.value = (EditText)rootView.findViewById(R.id.value);
 
@@ -509,6 +536,71 @@ public class FormFragment extends Fragment {
 
         this.registerDate.setInputType(InputType.TYPE_NULL);
 
+        this.registerDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+
+                    hideKeyboard();
+
+                }
+
+            }
+        });
+
+
+        this.licence = (EditText)rootView.findViewById(R.id.licence);
+
+        this.licence.setInputType(InputType.TYPE_NULL);
+
+        this.licence.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+
+                    hideKeyboard();
+
+                }
+
+            }
+        });
+
+        this.licence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                licDatePickerDialog.show();
+
+            }
+        });
+
+        Calendar newCalendar = Calendar.getInstance();
+        licDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                Date date = newDate.getTime();
+
+                if (new Date().after(date)) {
+
+                    licence.setText(dateFormatter.format(newDate.getTime()));
+
+                } else {
+
+                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przeszłości", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
         this.startDate = (EditText)rootView.findViewById(R.id.startDate);
 
         this.startDate.setInputType(InputType.TYPE_NULL);
@@ -522,16 +614,6 @@ public class FormFragment extends Fragment {
         this.yearsOC = (Spinner)rootView.findViewById(R.id.yearsOC);
 
         this.yearsAC = (Spinner)rootView.findViewById(R.id.yearsAC);
-
-
-
-
-
-
-
-
-
-
 
         List<String> insurersList = new ArrayList<String>(insurersDict.keySet());
 
@@ -584,7 +666,7 @@ public class FormFragment extends Fragment {
 
         this.mDbCodeHelper = new CodeDataAdapter(this.getActivity().getApplicationContext());
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
 
 
@@ -765,7 +847,14 @@ public class FormFragment extends Fragment {
 
         super.onPause();
 
-        this.cacheForm();
+        try {
+
+            this.cacheForm();
+
+        } catch (Exception e) {
+
+
+        }
 
     }
 
@@ -876,7 +965,7 @@ public class FormFragment extends Fragment {
 
                 int selectedYear = years.get(position);
 
-                Toast.makeText(getActivity().getApplicationContext(), String.valueOf(selectedYear), Toast.LENGTH_LONG).show();
+
 
                 getModelsById(selectedCompany, selectedYear);
 
@@ -1014,7 +1103,7 @@ public class FormFragment extends Fragment {
 
                 } else {
 
-                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przyszłości", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przyszłości", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -1024,6 +1113,20 @@ public class FormFragment extends Fragment {
     }
 
     private void setStartDateField() {
+        startDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+
+                    hideKeyboard();
+
+                }
+
+            }
+        });
+
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1048,7 +1151,7 @@ public class FormFragment extends Fragment {
 
                 } else {
 
-                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przyszłości", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przyszłości", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -1110,94 +1213,182 @@ public class FormFragment extends Fragment {
         return null;
     }
 
+    public boolean validated() {
+
+        int ie_id = -1;
+
+        int capacity = -1;
+
+        int year_of_prod = -1;
+
+        int lastYearDamageOC = 0;
+
+        int lastYearDamageAC = 0;
+
+        int last2YearsDamageAC = 0;
+
+        int last2YearsDamageOC = 0;
+
+        int insuranceValue = 0;
+
+        if (startDate.getText().toString().equalsIgnoreCase("") || startDate.getText().toString().equalsIgnoreCase("wybierz datę")) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawną wartość rozpoczęcia ochrony!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        if (registerDate.getText().toString().equalsIgnoreCase("") || registerDate.getText().toString().equalsIgnoreCase("wybierz datę")) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawną wartość rejestracji!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        if (postalCode.getText().toString().equalsIgnoreCase("")) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawną wartość kodu!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        String postal = postalCode.getText().toString();
+
+
+
+        try {
+
+            insuranceValue = Integer.parseInt(value.getText().toString());
+
+        } catch (Exception e) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawną wartość ubezpieczenia!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        String peselString = pesel.getText().toString();
+
+        if (pesel.length() != 11) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawny PESEL!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+
+
+        if (lastYearOC.isChecked()) {
+
+            lastYearDamageOC = 1;
+
+        }
+
+        if (lastYearAC.isChecked()) {
+
+            lastYearDamageAC = 1;
+
+        }
+
+        if (last3yearsAC.isChecked()) {
+
+            last2YearsDamageAC = 1;
+
+        }
+
+        if (last3yearsOC.isChecked()) {
+
+            last2YearsDamageOC = 1;
+
+        }
+
+        Date lic, birth, from;
+
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (installmentsSelected == -1) {
+
+            installmentsSelected = 1;
+
+        }
+
+        try {
+
+            birth = dateFormat.parse(dob.getText().toString());
+
+        } catch (ParseException e) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Zła data urodzenia!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        try {
+
+            from = dateFormat.parse(startDate.getText().toString());
+
+        } catch (ParseException e) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Zła data rozpoczęcia ubezpieczenia!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        try {
+
+            lic = dateFormat.parse(licence.getText().toString());
+
+        } catch (ParseException e) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Zła data otrzymania prawa jazdy!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        if (selectedModel == -1) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wybierz model pojazdu", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
     public void postDataToService() throws IOException {
 
+        if (validated()) {
 
-        new RetrieveCalculationsTask().execute();
+            dialog.show(fm, "some_tag");
+
+            new RetrieveCalculationsTask().execute();
+
+        }
         //response.put("HTTPStatus",httpResponse.getStatusLine().toString());
 
     }
-
-    public class RetrieveCalculationsTask extends AsyncTask<String, Void,String> {
-
-        private Exception exception;
-
-        protected String doInBackground(String... urls) {
-
-            String xml = loadAssetTextAsString(getActivity().getApplicationContext(), "post.txt");
-
-            String env = String.format("<soapenv:Envelope xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" " +
-                    "xmlns:xsd=\\\"http://www.w3.org/2001/XMLSchema\\\" " +
-                    "xmlns:soapenv=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\" " +
-                    "xmlns:myns=\\\"http://www.example.org/myns/\\\"><soapenv:Header/>" +
-                    "<soapenv:Body><myns:getQuoteToProducts " +
-                    "soapenv:encodingStyle=\\\"http://schemas.xmlsoap.org/soap/encoding/\\\">" +
-                    "<xmlDocument xsi:type=\\\"xsd:string\\\"><![CDATA[%s]]></xmlDocument>" +
-                    "</myns:getQuoteToProducts></soapenv:Body></soapenv:Envelope>", xml);
-
-            HttpPost httppost = new HttpPost("http://systemdlaagenta.pl/ws/QuoteServerXML.php");
-            StringEntity se = null;
-            try {
-                se = new StringEntity(env, HTTP.UTF_8);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                return "dupa";
-            }
-
-            se.setContentType("text/xml");
-            httppost.setHeader("Content-Type","application/soap+xml;charset=UTF-8");
-            httppost.setEntity(se);
-
-            HttpClient httpclient = new DefaultHttpClient();
-            BasicHttpResponse httpResponse =
-                    null;
-            try {
-                httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "dupa";
-            }
-
-            //String response = httpResponse.getEntity().toString();
-
-            BufferedReader rd = null;
-            try {
-                rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            StringBuilder builder = new StringBuilder();
-            String str = "";
-
-            assert rd != null;
-            try {
-                while ((str = rd.readLine()) != null) {
-                    builder.append(str);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String text = builder.toString();
-
-            return text;
-        }
-
-        protected void onPostExecute() {
-            // TODO: check this.exception
-            // TODO: do something with the feed
-        }
-    }
-
-
 
     private void writeToFile(String data, String name) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().getApplicationContext().openFileOutput(name, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
+            Toast.makeText(getActivity().getApplicationContext(), "Zapisano!", Toast.LENGTH_SHORT).show();
         }
         catch (IOException e) {
+            Toast.makeText(getActivity().getApplicationContext(), "Błąd zapisu!", Toast.LENGTH_SHORT).show();
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
@@ -1245,9 +1436,9 @@ public class FormFragment extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(getActivity(),date.toString(),Toast.LENGTH_LONG).show();
 
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
             String dobString = df.format(date);
 
@@ -1260,4 +1451,302 @@ public class FormFragment extends Fragment {
         }
 
     }
+
+
+    public class RetrieveCalculationsTask extends AsyncTask<String, Void, ArrayList<String>> {
+
+        private Exception exception;
+
+
+
+        @Override
+        protected ArrayList<String> doInBackground(String... urls) {
+
+            ArrayList<String> prices = new ArrayList<String>();
+
+            try {
+
+                int ie_id = -1;
+
+                int capacity = -1;
+
+                int year_of_prod = -1;
+
+                int lastYearDamageOC = 0;
+
+                int lastYearDamageAC = 0;
+
+                int last2YearsDamageAC = 0;
+
+                int last2YearsDamageOC = 0;
+
+                int insuranceValue = 0;
+
+                String postal = postalCode.getText().toString();
+
+                try {
+
+                    insuranceValue = Integer.parseInt(value.getText().toString());
+
+                } catch (Exception e) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawną wartość ubezpieczenia!", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+                String peselString = pesel.getText().toString();
+
+                if (pesel.length() != 11) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Wpisz poprawny PESEL!", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+
+                if (lastYearOC.isChecked()) {
+
+                    lastYearDamageOC = 1;
+
+                }
+
+                if (lastYearAC.isChecked()) {
+
+                    lastYearDamageAC = 1;
+
+                }
+
+                if (last3yearsAC.isChecked()) {
+
+                    last2YearsDamageAC = 1;
+
+                }
+
+                if (last3yearsOC.isChecked()) {
+
+                    last2YearsDamageOC = 1;
+
+                }
+
+                Date lic, birth, from;
+
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                if (installmentsSelected == -1) {
+
+                    installmentsSelected = 1;
+
+                }
+
+                try {
+
+                    birth = dateFormat.parse(dob.getText().toString());
+
+                } catch (ParseException e) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Zła data urodzenia!", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+                try {
+
+                    from = dateFormat.parse(startDate.getText().toString());
+
+                } catch (ParseException e) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Zła data rozpoczęcia ubezpieczenia!", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+                try {
+
+                    lic = dateFormat.parse(licence.getText().toString());
+
+                } catch (ParseException e) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Zła data otrzymania prawa jazdy!", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+                if (selectedModel == -1) {
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Wybierz model pojazdu", Toast.LENGTH_SHORT).show();
+
+                    return prices;
+
+                }
+
+                mDbHelper.createDatabase();
+
+                mDbHelper.open();
+
+                Cursor c = mDbHelper.getModelWithId(selectedModel);
+
+                if (c.moveToFirst()) {
+
+
+                    year_of_prod = (int) yearsSpinner.getSelectedItem();
+
+                    ie_id = c.getInt(3);
+
+                    capacity = c.getInt(4);
+
+
+                }
+
+                mDbCodeHelper.close();
+
+                String xml = loadAssetTextAsString(getActivity().getApplicationContext(), "post.txt");
+
+                String formattedXML = String.format(xml, peselString, dob.getText().toString(), postal, previousInsurerOC, lastYearDamageOC, previousInsurerAC, lastYearDamageAC, licence.getText().toString(), last2YearsDamageAC, licence.getText().toString(), registerDate.getText().toString(), ie_id, year_of_prod, capacity, startDate.getText(), insuranceValue, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected);
+
+                String env = String.format("<soapenv:Envelope xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" " +
+                        "xmlns:xsd=\\\"http://www.w3.org/2001/XMLSchema\\\" " +
+                        "xmlns:soapenv=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\" " +
+                        "xmlns:myns=\\\"http://www.example.org/myns/\\\"><soapenv:Header/>" +
+                        "<soapenv:Body><myns:getQuoteToProducts " +
+                        "soapenv:encodingStyle=\\\"http://schemas.xmlsoap.org/soap/encoding/\\\">" +
+                        "<xmlDocument xsi:type=\\\"xsd:string\\\"><![CDATA[%s]]></xmlDocument>" +
+                        "</myns:getQuoteToProducts></soapenv:Body></soapenv:Envelope>", formattedXML);
+
+                HttpPost httppost = new HttpPost("http://systemdlaagenta.pl/ws/QuoteServerXML.php");
+                StringEntity se = null;
+                try {
+                    se = new StringEntity(env.replace("\\", ""), HTTP.UTF_8);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    return prices;
+                }
+
+                se.setContentType("text/xml");
+                httppost.setHeader("Content-Type", "text/xml;charset=UTF-8");
+                httppost.setEntity(se);
+
+                HttpClient httpclient = new DefaultHttpClient();
+                BasicHttpResponse httpResponse = null;
+                try {
+                    httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return prices;
+                }
+
+                HttpEntity responseEntity = httpResponse.getEntity();
+
+                String calculationString = "";
+
+
+                try {
+                    String respString = EntityUtils.toString(responseEntity, HTTP.UTF_8);
+
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory
+                            .newInstance();
+
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    InputSource is = new InputSource();
+                    is.setCharacterStream(new StringReader(respString));
+
+                    Document doc = db.parse(is);
+                    doc.getDocumentElement().normalize();
+
+                    org.w3c.dom.Element ee = doc.getDocumentElement();
+
+                    NodeList nodeList = doc.getElementsByTagName("*");
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        Node node = nodeList.item(i);
+                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+                            // do something with the current element
+                            String n = node.getNodeName();
+                            if (n.equals("SOAP-ENV:getQuoteToProductsResponse")) {
+
+                                Node node1 = node.getFirstChild().getFirstChild();
+
+                                calculationString = node1.getNodeValue();
+
+                                DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+                                        .newInstance();
+                                DocumentBuilder documentBuilder = documentBuilderFactory
+                                        .newDocumentBuilder();
+                                InputSource inputSource = new InputSource();
+                                inputSource.setCharacterStream(new StringReader(calculationString));
+                                Document document = documentBuilder.parse(inputSource);
+
+
+                                NodeList nl = document.getFirstChild().getChildNodes();
+
+                                for (int x = 0; x < nl.getLength(); x++) {
+
+                                    Node n2 = nl.item(x);
+
+                                    String nodeVal = n2.getFirstChild().getFirstChild().getFirstChild().getNodeValue();
+
+                                    if (!nodeVal.equals("0")) {
+
+                                        prices.add(nodeVal);
+
+                                    }
+
+                                    System.out.println(nodeVal);
+                                }
+
+                            }
+                            System.out.println(n);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            policyPrices = prices;
+
+            return prices;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> strings) {
+
+            dialog.dismiss();
+
+            if (policyPrices.size() != 0) {
+
+                Intent intent = new Intent(getActivity(), OffersActivity.class);
+
+                intent.putStringArrayListExtra("offers", policyPrices);
+
+                startActivity(intent);
+
+            } else {
+
+                Toast.makeText(getActivity(), "Brak rezultatów dla podanych danych", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+    }
+
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 }

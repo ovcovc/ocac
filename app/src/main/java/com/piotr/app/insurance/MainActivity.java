@@ -23,6 +23,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     Fragment mCalculationsFragment= new CalculationsFragment();
 
+    Fragment mPoliciesFragment = new PolisyFragment();
+
+    Fragment mWeb1Fragment = new Web1Fragment();
+
+    Fragment mWeb2Fragment = new Web2Fragment();
+
+
     public void setFileToRestore(String file) {
 
         this.fileToRestore = file;
@@ -61,6 +68,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mTab = mActionBar.newTab().setText("Moje kalkulacje").setTabListener(new TabListener(mCalculationsFragment));
         mActionBar.addTab(mTab);
 
+        mTab = mActionBar.newTab().setText("Polisy").setTabListener(new TabListener(mPoliciesFragment));
+        mActionBar.addTab(mTab);
+
+        mTab = mActionBar.newTab().setText("Baza wiedzy").setTabListener(new TabListener(mWeb1Fragment));
+        mActionBar.addTab(mTab);
+
+        mTab = mActionBar.newTab().setText("Szkoda").setTabListener(new TabListener(mWeb2Fragment));
+        mActionBar.addTab(mTab);
+
     }
 
 
@@ -75,8 +91,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        return false;
     }
 
     @Override

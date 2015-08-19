@@ -89,7 +89,7 @@ public class DataAdapter
 
     public Cursor getModelWithId(int id) {
 
-        String sql = "SELECT * FROM modele WHERE id LIKE "+String.valueOf(id);
+        String sql = "SELECT * FROM modele WHERE id_model LIKE "+String.valueOf(id);
 
         return mDb.rawQuery(sql, null);
 

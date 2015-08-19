@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:paddingLeft="0dp"
+    android:paddingTop="20dp"
+    android:paddingRight="0dp">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Oferty"
+        android:id="@+id/textView33"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center|center_vertical"
+        android:padding="10dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView33"
+        android:choiceMode="singleChoice" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout"
+        android:weightSum="102">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WYJDŹ"
+            android:id="@+id/exit"
+            android:layout_weight="50"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:background="#ff3b3b3b" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:background="#ffffffff"></LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZAPISZ"
+            android:id="@+id/save"
+            android:layout_weight="50"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:background="#ff3b3b3b" />
+    </LinearLayout>
+
+</RelativeLayout>

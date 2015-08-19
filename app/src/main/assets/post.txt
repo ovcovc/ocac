@@ -7,26 +7,26 @@
                 <role>wlasciciel</role>
                 <osoba>osoba fizyczna</osoba>
                 <gender>mezczyzna</gender>
-                <pesel>PESEL</pesel>
+                <pesel>%s</pesel>
                 <familyStatus>Mezatka/Zonaty</familyStatus>
                 <czy_ubezpieczajacy>true</czy_ubezpieczajacy>
-                <data_urodzenia>DOB</data_urodzenia>
-                <postal_code>POSTAL_CODE</postal_code>
+                <data_urodzenia>%s</data_urodzenia>
+                <postal_code>%s</postal_code>
                 <city>Opole</city>
                 <cityId>18265</cityId>
                 <regionId>1661</regionId>
-                <poprzednie_tu_oc>LASTOCINSURER</poprzednie_tu_oc>
+                <poprzednie_tu_oc>%d</poprzednie_tu_oc>
                 <bonus_malus_oc>0.40</bonus_malus_oc>
-                <liczba_szkod_oc_w_ostatnim_roku>LASTYEAROC</liczba_szkod_oc_w_ostatnim_roku>
+                <liczba_szkod_oc_w_ostatnim_roku>%d</liczba_szkod_oc_w_ostatnim_roku>
                 <liczba_lat_bez_szkody_oc>10</liczba_lat_bez_szkody_oc>
                 <liczba_ostatnich_lat_bez_szkody_oc>10</liczba_ostatnich_lat_bez_szkody_oc>
-                <poprzednie_tu_ac>LASTACINSURER</poprzednie_tu_ac>
+                <poprzednie_tu_ac>%d</poprzednie_tu_ac>
                 <bonus_malus_ac>0.40</bonus_malus_ac>
                 <liczba_ostatnich_lat_w_ubezpieczanym_tu_ac>undefined</liczba_ostatnich_lat_w_ubezpieczanym_tu_ac>
-                <liczba_szkod_ac_w_ostatnim_roku>LASTYEARAC</liczba_szkod_ac_w_ostatnim_roku>
+                <liczba_szkod_ac_w_ostatnim_roku>%d</liczba_szkod_ac_w_ostatnim_roku>
                 <liczba_ostatnich_lat_bez_szkody_ac>10</liczba_ostatnich_lat_bez_szkody_ac>
-                <data_wydania_prawa_jazdy>1999-09-09</data_wydania_prawa_jazdy>
-                <szkody_w_latach_2_ac>0</szkody_w_latach_2_ac>
+                <data_wydania_prawa_jazdy>%s</data_wydania_prawa_jazdy>
+                <szkody_w_latach_2_ac>%d</szkody_w_latach_2_ac>
                 <childrenCount>2</childrenCount>
                 <childrenFrequency>1</childrenFrequency>
                 <occupation>1</occupation>
@@ -44,15 +44,15 @@
                     <personDriving>
                         <drivingLicenseType>B</drivingLicenseType>
                         <drivingExperience>10</drivingExperience>
-                        <licenceDate>LICENCEDATE</licenceDate>
+                        <licenceDate>%s</licenceDate>
                     </personDriving>
                 </personDrivingData>
                 <historyInsurance/>
             </owner>
         </param>
         <param name="typeOfOwner" value="F"/>
-        <param name="vehicle_registration_date" value="REGISTRATIONDATE"/>
-        <param name="vehicle_infoexpert_id" value="INFOEXPERTID"/>
+        <param name="vehicle_registration_date" value="%s"/>
+        <param name="vehicle_infoexpert_id" value="%d"/>
         <param name="kmPerYear" value="40000"/>
         <param name="currentMileage" value="150000"/>
         <param name="ownedFromYear" value="2011"/>
@@ -61,15 +61,15 @@
         <param name="vehicleOrigin" value="Sprowadzony wczesniej"/>
         <param name="vehiclePriorDamages" value="Nie"/>
         <param name="electroProtection" value="Sprawne"/>
-        <param name="makeId" value="MARKAID"/>
-        <param name="modelId" value="MODELID"/>
-        <param name="modelYear" value="MODELYEAR"/>
+        <param name="makeId" value="102"/>
+        <param name="modelId" value="301455"/>
+        <param name="modelYear" value="2011"/>
         <param name="vehicleType" value="OSOBOWY"/>
         <param name="vehicleUsage" value="Prywatne"/>
         <param name="vehicleUse" value="1"/>
         <param name="number_of_seats" value="5"/>
-        <param name="vehicle_year" value="2011"/>
-        <param name="engineCapacity" value="2996"/>
+        <param name="vehicle_year" value="%d"/>
+        <param name="engineCapacity" value="%d"/>
         <param name="payload" value="0"/>
         <param name="fabrycznie_nowy" value="0"/>
         <param name="valid_technical_studies" value="1"/>
@@ -77,7 +77,7 @@
         <param name="przeznaczenie_pojazdu" value="UzytekWlasny"/>
         <param name="typeOfUse" value="1"/>
         <param name="typeOfUseId" value="1"/>
-        <param name="duration_of_insurance_from" value="STARTDATE"/>
+        <param name="duration_of_insurance_from" value="%s"/>
         <param name="BezszkodowaKontynuacjaWBTUM" value="0"/>
         <param name="InneUbezpieczenieMajatkoweWBTUM" value="0"/>
         <param name="LiczbaPolisOcWOstatnich7Latach" value="7"/>
@@ -86,7 +86,7 @@
         <param name="LiczbaSzkodAcwOstatnimRoku" value="0"/>
         <param name="LiczbaSzkodAcWOstatnich7Latach" value="0"/>
         <param name="LiczbaPolisAcWOstatnich7Latach" value="7"/>
-        <param name="vehicle_value" value="VALUE"/>
+        <param name="vehicle_value" value="%d"/>
         <param name="ACWartoscTyp" value="Brutto"/>
         <param name="eurotaxId" value="83981"/>
         <param name="FuelType" value="P"/>
@@ -98,12 +98,12 @@
         <param name="driverUnder25OrDrivingLicenseLess2" value="0"/>
         <param name="hestiaSecondVehicle" value="nie"/>
         <param name="hestiaOCContinuation" value="false"/>
-        <param name="hestiaOCContinuationWithoutDamage" value="-1"/>
+        <param name="hestiaOCContinuationWithoutDamage" value="false"/>
         <param name="hestiaACContinuation" value="false"/>
-        <param name="hestiaACContinuationWithoutDamage" value="-1"/>
+        <param name="hestiaACContinuationWithoutDamage" value="false"/>
         <param name="allianz_wznowienie" value="0"/>
         <param name="vehiclePastInsuranceHistory">
-            <lastInsurer>INSURERNAME</lastInsurer>
+            <lastInsurer>Ergo Hestia</lastInsurer>
             <discountOC>0.40</discountOC>
             <discountAC>0.40</discountAC>
             <prevInsurerDiscount>0.5</prevInsurerDiscount>
@@ -128,7 +128,7 @@
         </param>
     </common_params>
     <calculation_configs>
-
+        
         ## BENEFIA OC
         <calculation_config id="product-1" id_product="1002">
             <param name="ext_oc" value="1"/>
@@ -141,9 +141,9 @@
             <param name="BrakKonsumpcjiSumyUbezpieczeniaPoSzkodzie" value="0"/>
             <param name="UdzialWlasnyWSzkodach10" value="0"/>
             <param name="SposobRozliczeniaSzkody" value="Kosztorys"/>
-            <param name="payment_installment" value="RATY"/>
+            <param name="payment_installment" value="%d"/>
         </calculation_config>
-
+        
         ## BENEFIA OC + NNW
         <calculation_config id="product-11" id_product="1002">
             <param name="ext_oc" value="1"/>
@@ -156,10 +156,10 @@
             <param name="BrakKonsumpcjiSumyUbezpieczeniaPoSzkodzie" value="0"/>
             <param name="UdzialWlasnyWSzkodach10" value="0"/>
             <param name="SposobRozliczeniaSzkody" value="Kosztorys"/>
-            <param name="payment_installment" value="RATY"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="VALUE"/>
+            <param name="payment_installment" value="%d"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
         </calculation_config>
-
+        
         ## BENEFIA OC+NNW+ASS
         <calculation_config id="product-111" id_product="1002">
             <param name="ext_oc" value="1"/>
@@ -172,11 +172,11 @@
             <param name="BrakKonsumpcjiSumyUbezpieczeniaPoSzkodzie" value="0"/>
             <param name="UdzialWlasnyWSzkodach10" value="0"/>
             <param name="SposobRozliczeniaSzkody" value="Kosztorys"/>
-            <param name="payment_installment" value="RATY"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="VALUE"/>
+            <param name="payment_installment" value="%d"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
             <param name="ass_WynajemSamochoduZastepczegoDoDni" value="3"/>
         </calculation_config>
-
+        
         ## HESTIA OC
         <calculation_config id="product-21" id_product="6000">
             <param name="ext_oc" value="1"/>
@@ -187,34 +187,40 @@
             <param name="ext_ouz_ac" value="0"/>
             <param name="ext_ssu" value="0"/>
             <param name="ext_bagaz" value="0"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="VALUE"/>
+            <param name="renewalPolicyNumber" value="brak"/>
+            <param name="responsePolicy" value="brak"/>
+            <param name="requestPolicy" value="brak"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="0"/>
             <param name="ext_hca" value="0"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="SZYBY"/>
+            <param name="ext_szyby" value="0"/>
             <param name="ext_ouz_oc" value="0"/>
-            <param name="payment_installment" value="RATY"/>
+            <param name="payment_installment" value="%d"/>
         </calculation_config>
-
+        
         ## HESTIA OC+NNW
         <calculation_config id="product-211" id_product="6000">
             <param name="ext_oc" value="1"/>
             <param name="ext_ac" value="0"/>
             <param name="ext_kr" value="0"/>
+                        <param name="responsePolicy" value="brak"/>
+                        <param name="requestPolicy" value="brak"/>
             <param name="ext_nnw" value="1"/>
             <param name="ext_wd" value="0"/>
             <param name="ext_ouz_ac" value="0"/>
             <param name="ext_ssu" value="0"/>
+            <param name="renewalPolicyNumber" value="brak"/>
             <param name="ext_bagaz" value="0"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="VALUE"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
             <param name="ext_hca" value="0"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="SZYBY"/>
+            <param name="ext_szyby" value="0"/>
             <param name="ext_ouz_oc" value="0"/>
-            <param name="payment_installment" value="RATY"/>
+            <param name="payment_installment" value="%d"/>
         </calculation_config>
-
+        
         ## HESTIA OC+NNW+ASS
         <calculation_config id="product-2111" id_product="6000">
             <param name="ext_oc" value="1"/>
@@ -222,16 +228,19 @@
             <param name="ext_kr" value="0"/>
             <param name="ext_nnw" value="1"/>
             <param name="ext_wd" value="0"/>
+                        <param name="responsePolicy" value="brak"/>
+                        <param name="requestPolicy" value="brak"/>
+            <param name="renewalPolicyNumber" value="brak"/>
             <param name="ext_ouz_ac" value="0"/>
             <param name="ext_ssu" value="0"/>
             <param name="ext_bagaz" value="0"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="VALUE"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
             <param name="ext_hca" value="1"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="SZYBY"/>
+            <param name="ext_szyby" value="0"/>
             <param name="ext_ouz_oc" value="0"/>
-            <param name="payment_installment" value="RATY"/>
+            <param name="payment_installment" value="%d"/>
         </calculation_config>
             </calculation_configs>
 </document>
