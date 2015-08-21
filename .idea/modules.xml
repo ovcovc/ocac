@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/activation/activation.iml" filepath="$PROJECT_DIR$/activation/activation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/additionnal/additionnal.iml" filepath="$PROJECT_DIR$/additionnal/additionnal.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-lang3-3.4/commons-lang3-3.4.iml" filepath="$PROJECT_DIR$/commons-lang3-3.4/commons-lang3-3.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/insurance.iml" filepath="$PROJECT_DIR$/insurance.iml" />
       <module fileurl="file://$PROJECT_DIR$/ksoap2-android-2.5.4/ksoap2-android-2.5.4.iml" filepath="$PROJECT_DIR$/ksoap2-android-2.5.4/ksoap2-android-2.5.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/ksoap2-android-assembly-3.4.0-jar-with-dependencies/ksoap2-android-assembly-3.4.0-jar-with-dependencies.iml" filepath="$PROJECT_DIR$/ksoap2-android-assembly-3.4.0-jar-with-dependencies/ksoap2-android-assembly-3.4.0-jar-with-dependencies.iml" />
       <module fileurl="file://$PROJECT_DIR$/kxml2-2.3.0/kxml2-2.3.0.iml" filepath="$PROJECT_DIR$/kxml2-2.3.0/kxml2-2.3.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mail/mail.iml" filepath="$PROJECT_DIR$/mail/mail.iml" />
     </modules>
   </component>
 </project>

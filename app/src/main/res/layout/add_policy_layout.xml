@@ -10,7 +10,8 @@
         android:layout_above="@+id/cancel"
         android:paddingTop="20dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:background="#ff3b3b3b">
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/desc"
+            android:colorControlNormal="#E6007E"
             android:textColor="@android:color/white"
             android:text="Wpisz opis" />
 
@@ -82,14 +84,29 @@
         android:text="Zapisz"
         android:id="@+id/save"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/black"
+        android:textColor="@android:color/background_light" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/save"
+        android:id="@+id/breakLay"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ff3b3b3b"></LinearLayout>
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Anuluj"
         android:id="@+id/cancel"
-        android:layout_above="@+id/save"
-        android:layout_centerHorizontal="true" />
+        android:background="@android:color/black"
+        android:textColor="@android:color/background_light"
+        android:layout_above="@+id/breakLay"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -94,21 +94,24 @@ public class CalculationsFragment extends Fragment {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
+
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                text1.setTextColor(getResources().getColor(R.color.abc_primary_text_material_light));
+                //text1.setTextColor(getResources().getColor(R.color.abc_primary_text_material_light));
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-                text2.setTextColor(getResources().getColor(R.color.abc_primary_text_material_light));
+                //text2.setTextColor(getResources().getColor(R.color.abc_primary_text_material_light));
 
 
                 try {
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm");
 
                     String dateString = fileNames.get(position).get("filename").toString().substring(0, fileNames.get(position).get("filename").toString().length()-5);
 
                     Date d = dateFormat.parse(dateString);
 
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd.MM.yyyy");
+
+
 
                     text1.setText(String.format("Kalkulacja z %s",sdf.format(d)));
                     if (isFinished(fileNames.get(position))) {

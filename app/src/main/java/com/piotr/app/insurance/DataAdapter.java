@@ -67,7 +67,7 @@ public class DataAdapter
 
     public Cursor getAllCompanies() {
 
-        String sql = "SELECT * FROM marki";
+        String sql = "SELECT * FROM marki ORDER BY LOWER(marka)";
 
         return mDb.rawQuery(sql, null);
 

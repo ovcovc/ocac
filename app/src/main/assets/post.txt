@@ -82,8 +82,8 @@
         <param name="InneUbezpieczenieMajatkoweWBTUM" value="0"/>
         <param name="LiczbaPolisOcWOstatnich7Latach" value="7"/>
         <param name="LiczbaSzkodOcWOstatnich7Latach" value="0"/>
-        <param name="LiczbaSzkodOcwOstatnimRoku" value="0"/>
-        <param name="LiczbaSzkodAcwOstatnimRoku" value="0"/>
+        <param name="LiczbaSzkodOcwOstatnimRoku" value="SZKODY_OC_ROK"/>
+        <param name="LiczbaSzkodAcwOstatnimRoku" value="SZKODY_AC_ROK"/>
         <param name="LiczbaSzkodAcWOstatnich7Latach" value="0"/>
         <param name="LiczbaPolisAcWOstatnich7Latach" value="7"/>
         <param name="vehicle_value" value="%d"/>
@@ -188,13 +188,11 @@
             <param name="ext_ssu" value="0"/>
             <param name="ext_bagaz" value="0"/>
             <param name="renewalPolicyNumber" value="brak"/>
-            <param name="responsePolicy" value="brak"/>
-            <param name="requestPolicy" value="brak"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="0"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="HAJS"/>
             <param name="ext_hca" value="0"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="0"/>
+            <param name="ext_szyby" value="SZYBY"/>
             <param name="ext_ouz_oc" value="0"/>
             <param name="payment_installment" value="%d"/>
         </calculation_config>
@@ -204,19 +202,17 @@
             <param name="ext_oc" value="1"/>
             <param name="ext_ac" value="0"/>
             <param name="ext_kr" value="0"/>
-                        <param name="responsePolicy" value="brak"/>
-                        <param name="requestPolicy" value="brak"/>
             <param name="ext_nnw" value="1"/>
             <param name="ext_wd" value="0"/>
             <param name="ext_ouz_ac" value="0"/>
             <param name="ext_ssu" value="0"/>
             <param name="renewalPolicyNumber" value="brak"/>
             <param name="ext_bagaz" value="0"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="HAJS"/>
             <param name="ext_hca" value="0"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="0"/>
+            <param name="ext_szyby" value="SZYBY"/>
             <param name="ext_ouz_oc" value="0"/>
             <param name="payment_installment" value="%d"/>
         </calculation_config>
@@ -228,17 +224,15 @@
             <param name="ext_kr" value="0"/>
             <param name="ext_nnw" value="1"/>
             <param name="ext_wd" value="0"/>
-                        <param name="responsePolicy" value="brak"/>
-                        <param name="requestPolicy" value="brak"/>
             <param name="renewalPolicyNumber" value="brak"/>
             <param name="ext_ouz_ac" value="0"/>
             <param name="ext_ssu" value="0"/>
             <param name="ext_bagaz" value="0"/>
-            <param name="nnw_SumaUbezpieczeniaPLN" value="30000"/>
+            <param name="nnw_SumaUbezpieczeniaPLN" value="HAJS"/>
             <param name="ext_hca" value="1"/>
             <param name="hca_wariant" value="1"/>
             <param name="ext_hca_mini" value="0"/>
-            <param name="ext_szyby" value="0"/>
+            <param name="ext_szyby" value="SZYBY"/>
             <param name="ext_ouz_oc" value="0"/>
             <param name="payment_installment" value="%d"/>
         </calculation_config>

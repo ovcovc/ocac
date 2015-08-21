@@ -20,7 +20,7 @@
         android:id="@+id/add"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#ff3b3b3b"
+        android:background="@android:color/black"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

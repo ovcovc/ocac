@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="#ff3b3b3b"
     android:paddingLeft="0dp"
     android:paddingTop="20dp"
     android:paddingRight="0dp">
@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Oferty"
         android:id="@+id/textView33"
-        android:textColor="@android:color/primary_text_light"
+        android:textColor="@android:color/background_light"
         android:layout_gravity="center_horizontal"
         android:gravity="center|center_vertical"
         android:padding="10dp" />
@@ -21,10 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView33"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:layout_above="@+id/linearLayout2" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:id="@+id/linearLayout"
-        android:weightSum="102">
+        android:weightSum="101">
 
         <Button
             android:layout_width="wrap_content"
@@ -44,14 +44,14 @@
             android:id="@+id/exit"
             android:layout_weight="50"
             android:textColor="@color/abc_primary_text_material_dark"
-            android:background="#ff3b3b3b" />
+            android:background="@android:color/black" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:background="#ffffffff"></LinearLayout>
+            android:layout_weight="1"
+            android:background="#ff3b3b3b"></LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -60,7 +60,26 @@
             android:id="@+id/save"
             android:layout_weight="50"
             android:textColor="@color/abc_primary_text_material_dark"
-            android:background="#ff3b3b3b" />
+            android:background="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout2"
+        android:paddingBottom="1dp">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="SKONTAKTUJ SIĘ Z NAMI"
+            android:id="@+id/contact"
+            android:layout_weight="50"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:background="@android:color/black" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -9,5 +9,5 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:choiceMode="singleChoice"
-        android:background="@android:color/white" />
+        android:background="#ff3b3b3b" />
 </RelativeLayout>

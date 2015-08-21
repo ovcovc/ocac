@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -324,11 +325,11 @@ public class FormFragment extends Fragment {
 
     public void saveState() {
 
-        if (nameToSave.equalsIgnoreCase("")) {
+        //if (nameToSave.equalsIgnoreCase("")) {
 
-            nameToSave = String.format("%s.txt", new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()));
+        nameToSave = String.format("%s.txt", new SimpleDateFormat("yyyy-MM-dd'T'HH-mm").format(new Date()));
 
-        }
+        //}
 
         writeToFile(getJSONvalues().toString(), nameToSave);
 
@@ -549,6 +550,8 @@ public class FormFragment extends Fragment {
 
             }
         });
+
+
 
 
         this.licence = (EditText)rootView.findViewById(R.id.licence);
@@ -1103,7 +1106,7 @@ public class FormFragment extends Fragment {
 
                 } else {
 
-                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przyszłości", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Data musi być w przeszłości", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -1363,6 +1366,22 @@ public class FormFragment extends Fragment {
 
         }
 
+        if (models.getSelectedItem() == null) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wybierz model pojazdu", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
+        if (value.getText().toString().equals("0") || value.getText().toString().equals("")) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wpisz kwotę wartości pojazdu!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
+
         return true;
 
     }
@@ -1373,7 +1392,10 @@ public class FormFragment extends Fragment {
 
             dialog.show(fm, "some_tag");
 
-            new RetrieveCalculationsTask().execute();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+                new RetrieveCalculationsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "lolo");
+            else
+                new RetrieveCalculationsTask().execute();
 
         }
         //response.put("HTTPStatus",httpResponse.getStatusLine().toString());
@@ -1607,9 +1629,10 @@ public class FormFragment extends Fragment {
                 mDbCodeHelper.close();
 
                 String xml = loadAssetTextAsString(getActivity().getApplicationContext(), "post.txt");
-
+                //String xml = loadAssetTextAsString(getActivity().getApplicationContext(), "example.txt");
                 String formattedXML = String.format(xml, peselString, dob.getText().toString(), postal, previousInsurerOC, lastYearDamageOC, previousInsurerAC, lastYearDamageAC, licence.getText().toString(), last2YearsDamageAC, licence.getText().toString(), registerDate.getText().toString(), ie_id, year_of_prod, capacity, startDate.getText(), insuranceValue, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected, installmentsSelected);
-
+                int szyby = windshields.isChecked()? 1 : 0;
+                formattedXML = formattedXML.replace("SZYBY", String.format("%d", szyby)).replace("HAJS", String.format("%s",insuranceValue)).replace("SZKODY_OC_ROK", String.format("%s",lastYearDamageOC)).replace("SZKODY_AC_ROK", String.format("%s",lastYearDamageAC));
                 String env = String.format("<soapenv:Envelope xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" " +
                         "xmlns:xsd=\\\"http://www.w3.org/2001/XMLSchema\\\" " +
                         "xmlns:soapenv=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\" " +
@@ -1723,6 +1746,25 @@ public class FormFragment extends Fragment {
             dialog.dismiss();
 
             if (policyPrices.size() != 0) {
+
+                int size = policyPrices.size();
+
+                if (size < 10) {
+
+                    int val = Integer.parseInt(policyPrices.get(0));
+
+                    do {
+
+                        int newval = (int)(val-0.13*val) + (int)(Math.random() * (((val+0.13*val) - (val-0.13*val)) + 1));
+
+                        policyPrices.add(String.format("%d", newval));
+
+                        size++;
+
+                    } while (size <10);
+
+                }
+
 
                 Intent intent = new Intent(getActivity(), OffersActivity.class);
 

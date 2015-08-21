@@ -142,6 +142,10 @@ public class AddPolicyActivity extends Activity {
 
         title.setInputType(InputType.TYPE_CLASS_TEXT);
 
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.showSoftInput(title, InputMethodManager.SHOW_IMPLICIT);
+
         desc.setInputType(InputType.TYPE_CLASS_TEXT);
 
         date = (EditText)findViewById(R.id.policyDate);

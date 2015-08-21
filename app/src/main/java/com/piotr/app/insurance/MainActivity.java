@@ -55,6 +55,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // find the action bar
         mActionBar = getSupportActionBar();
 
+        mActionBar.setIcon(R.drawable.amabee_icon);
+
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mActionBar.setDisplayShowTitleEnabled(true);

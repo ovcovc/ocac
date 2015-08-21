@@ -9,11 +9,14 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/activation" />
+            <option value="$PROJECT_DIR$/additionnal" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commons-lang3-3.4" />
             <option value="$PROJECT_DIR$/ksoap2-android-2.5.4" />
             <option value="$PROJECT_DIR$/ksoap2-android-assembly-3.4.0-jar-with-dependencies" />
             <option value="$PROJECT_DIR$/kxml2-2.3.0" />
+            <option value="$PROJECT_DIR$/mail" />
           </set>
         </option>
       </GradleProjectSettings>

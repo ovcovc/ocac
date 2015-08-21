@@ -1,6 +1,7 @@
 package com.piotr.app.insurance;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,7 @@ public class OffersActivity extends Activity {
 
     ListView listView;
 
-    Button save, exit;
+    Button save, exit, contact;
 
 
     public void saveOffers(){
@@ -42,7 +43,7 @@ public class OffersActivity extends Activity {
 
         data = data.substring(0,data.length()-2);
 
-        String filename = String.format("%s.txt", new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date()));
+        String filename = String.format("%s.txt", new SimpleDateFormat("yyyy-MM-dd'T'HH-mm").format(new Date()));
 
         JSONObject json = new JSONObject();
         try {
@@ -87,6 +88,18 @@ public class OffersActivity extends Activity {
             }
         });
 
+        contact = (Button)findViewById(R.id.contact);
+
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(OffersActivity.this, ContactActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
         listView = (ListView)findViewById(R.id.listView);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, offers) {
@@ -95,8 +108,10 @@ public class OffersActivity extends Activity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                text1.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-                text1.setText(String.format("%s PLN", offers.get(position)));
+                text2.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
+                text1.setText(String.format("%s PLN za ratę", offers.get(position)));
                 text2.setText(String.format("Oferta %d", position+1));
                 return view;
             }
