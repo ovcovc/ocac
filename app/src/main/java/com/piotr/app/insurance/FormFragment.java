@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -101,13 +102,15 @@ public class FormFragment extends Fragment {
 
     Spinner yearsSpinner;
 
-    Spinner yearsOC, yearsAC, city, installments;
+    Spinner yearsOC, yearsAC, city, installments, capacity;
 
     EditText postalCode, value, licence;
 
     int previousInsurerOC = -1;
 
     int selectedYear = -1;
+
+    int selectedCapacity = -1;
 
     String previousOCname = "";
 
@@ -121,7 +124,11 @@ public class FormFragment extends Fragment {
 
     HashMap<Integer, String> codeDict = new HashMap<Integer, String>();
 
+    ArrayList<Integer> capacityDict = new ArrayList<Integer>();
+
     HashMap<String, Integer> insurersDict = new HashMap<String, Integer>();
+
+    ArrayAdapter<Integer> capacityAdapter;
 
     ArrayList<Integer> years = new ArrayList<Integer>();
 
@@ -189,6 +196,8 @@ public class FormFragment extends Fragment {
         this.pesel.setText(json.get("pesel").toString());
 
         this.handlePesel();
+
+        this.selectedCapacity = Integer.parseInt(json.get("capacity").toString());
 
         this.postalCode.setText(json.get("postal_code").toString());
 
@@ -277,6 +286,8 @@ public class FormFragment extends Fragment {
 
             json.put("pesel", pesel.getText().toString());
 
+            json.put("capacity", capacity.getSelectedItem().toString());
+
             json.put("dob", dob.getText().toString());
 
             json.put("postal_code", postalCode.getText().toString());
@@ -361,6 +372,8 @@ public class FormFragment extends Fragment {
             this.value.setText(json.get("value").toString());
 
             this.pesel.setText(json.get("pesel").toString());
+
+            this.selectedCapacity = Integer.parseInt(json.get("capacity").toString());
 
             this.handlePesel();
 
@@ -699,7 +712,11 @@ public class FormFragment extends Fragment {
         });
 
 
+        this.capacity = (Spinner)rootView.findViewById(R.id.capacity);
 
+        capacityAdapter = new ArrayAdapter<Integer>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, capacityDict);
+
+        this.capacity.setAdapter(capacityAdapter);
 
         String[] y = {"0","1","2","3","4","5","6","7","Więcej"};
 
@@ -899,6 +916,51 @@ public class FormFragment extends Fragment {
 
                 selectedModel = getKeyByValue(modelsDict, models.getSelectedItem().toString());
 
+                mDbHelper.open();
+
+                capacityDict.clear();
+
+                Cursor c = mDbHelper.getCapaciciesOfModel(selectedModel);
+
+                if (c.moveToFirst()) {
+
+                    LinkedHashSet<Integer> set = new LinkedHashSet<Integer>();
+
+                    while (!c.isAfterLast()) {
+
+                        set.add(c.getInt(0));
+
+                        //capacityDict.add(c.getInt(0));
+
+                        c.moveToNext();
+
+                    }
+
+                    for (int i : set){
+
+                        capacityDict.add(i);
+                    }
+
+                }
+
+                mDbHelper.close();
+
+                capacityAdapter.notifyDataSetChanged();
+
+                capacity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        selectedCapacity = capacityDict.get(position);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -913,6 +975,14 @@ public class FormFragment extends Fragment {
             String c = modelsDict.get(selectedModel);
 
             this.models.setSelection(adapter.getPosition(c));
+        }
+
+        if (selectedCapacity != -1) {
+
+            String c = String.valueOf(selectedCapacity);
+
+            this.capacity.setSelection(adapter.getPosition(c));
+
         }
 
         setDateTimeField();
@@ -1233,6 +1303,14 @@ public class FormFragment extends Fragment {
         int last2YearsDamageOC = 0;
 
         int insuranceValue = 0;
+
+        if (selectedCapacity == -1) {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Wybierz pojemność silnika!", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+        }
 
         if (startDate.getText().toString().equalsIgnoreCase("") || startDate.getText().toString().equalsIgnoreCase("wybierz datę")) {
 
@@ -1621,10 +1699,12 @@ public class FormFragment extends Fragment {
 
                     ie_id = c.getInt(3);
 
-                    capacity = c.getInt(4);
+
 
 
                 }
+
+                capacity = selectedCapacity;
 
                 mDbCodeHelper.close();
 

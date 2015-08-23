@@ -83,6 +83,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Pojemność silnika"
+                    android:id="@+id/textView21"
+                    android:textColor="@android:color/secondary_text_dark"
+                    android:layout_weight="3" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/capacity"
+                    android:layout_weight="3"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Data pierwszej rejestracji"
                     android:id="@+id/textView5"
                     android:textColor="@android:color/secondary_text_dark" />
@@ -307,7 +324,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Od ilu lat posiadasz ubezpieczenie OC?"
+                    android:text="Od ilu lat posiadasz ubezpieczenie AC?"
                     android:id="@+id/textView18"
                     android:textColor="@android:color/secondary_text_dark" />
 
